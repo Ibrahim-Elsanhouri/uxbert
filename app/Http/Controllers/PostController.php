@@ -36,16 +36,16 @@ class PostController extends Controller
 
            // create record and pass in only fields that are fillable 
   $post =   $this->model->create($request->only($this->model->getModel()->fillable));
-      $this->model->show($post['id'])->tags()->sync($request->tag_id); 
+      $this->model->find($post['id'])->tags()->sync($request->tag_id); 
 
 
     return redirect('/posts');
 
 
  } 
- public function show($id) 
+ public function show($slug) 
  { 
-     return $this->model->show($id); 
+     return $this->model->show($slug); 
 }
 
 public function edit($id) {
@@ -63,7 +63,6 @@ public function update(PostRequest $request, $id) {
   
   $this->model->update($request->only($this->model->getModel()->fillable), $id);
   $this->model->show($id)->tags()->sync($request->tag_id); 
-  
   return redirect('/posts');
    
 }
