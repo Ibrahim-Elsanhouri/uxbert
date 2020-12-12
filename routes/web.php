@@ -26,10 +26,13 @@ Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
     Route::post('/login/admin', 'Auth\LoginController@adminLogin');
     Route::post('/register/admin', 'Auth\RegisterController@createAdmin');
 
-    Route::view('/home', 'home')->middleware('auth');
+    Route::view('/home', 'home');
 
-    Route::view('/admin', 'admin')->middleware('auth:admin');
+  //  Route::view('/admin', 'admin')->middleware('auth:admin');
 
-Route::resource('posts', 'PostController')->middleware('auth:admin');
-Route::get('posts/restore/{id}' , 'PostController@restore')->name('posts.restore'); 
-Route::get('posts/forceDelete/{id}' , 'PostController@forceDelete')->name('posts.force'); 
+    Route::middleware('auth:admin')->group(function () {
+        Route::resource('posts', 'PostController')->middleware('auth:admin');
+        Route::get('posts/restore/{id}' , 'PostController@restore')->name('posts.restore'); 
+        Route::get('posts/forceDelete/{id}' , 'PostController@forceDelete')->name('posts.force');
+    });
+ 
